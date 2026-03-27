@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RazorMen Barbershop | Gagah & Modern</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #eaeef2;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c6a43b;
+            border-radius: 6px;
+        }
+
+        /* reusable classes */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+        .section-title span {
+            color: #d4af37;
+            border-bottom: 3px solid #d4af37;
+            padding-bottom: 8px;
+        }
+
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #25D366;
+            color: #0a0a0a;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-wa i {
+            font-size: 1.3rem;
+        }
+        .btn-wa:hover {
+            background-color: #20b859;
+            transform: scale(1.03);
+            box-shadow: 0 12px 24px rgba(37, 211, 102, 0.35);
+            color: #ffffff;
+        }
+
+        /* navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 0;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #f5e7b2, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #f0f0f0;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #d4af37;
+        }
+
+        /* hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+        .hero-content {
+            max-width: 700px;
+            animation: fadeUp 1s ease;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero-content h1 span {
+            color: #d4af37;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 2rem;
+            opacity: 0.9;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-outline:hover {
+            background: #d4af37;
+            color: #0a0a0a;
+        }
+
+        /* services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .service-card {
+            background: #111111;
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            backdrop-filter: blur(2px);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: #d4af37;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+        }
+        .service-icon {
+            font-size: 3rem;
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+        }
+        .service-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin: 1rem 0;
+        }
+        .service-desc {
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* about section */
+        .about-wrapper {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-text {
+            flex: 1;
+        }
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #d4af37;
+        }
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+        .about-img {
+            flex: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 30px -12px black;
+        }
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: 0.4s;
+        }
+        .about-img:hover img {
+            transform: scale(1.02);
+        }
+
+        /* footer */
+        footer {
+            background: #050505;
+            padding: 48px 0 24px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #d4af37;
+        }
+        .footer-col p, .footer-col li {
+            color: #aaa;
+            line-height: 1.7;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+        .footer-col i {
+            width: 28px;
+            color: #d4af37;
+        }
+        .social-links a {
+            color: #ccc;
+            margin-right: 18px;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .social-links a:hover {
+            color: #d4af37;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #1f1f1f;
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        /* floating whatsapp button */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+            z-index: 99;
+            text-decoration: none;
+            color: white;
+            font-size: 2rem;
+        }
+        .wa-float:hover {
+            transform: scale(1.1);
+            background-color: #20b859;
+        }
+
+        /* animation */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* responsive */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #0a0a0a;
+                backdrop-filter: blur(12px);
+                padding: 2rem;
+                text-align: center;
+                gap: 1.5rem;
+                border-bottom: 1px solid #d4af37;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .about-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .btn-wa, .btn-outline {
+                padding: 10px 20px;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <div class="container nav-container">
+        <div class="logo">✂️ Beryl<span style="color:#d4af37;">liebert</span></div>
+        <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#services">Layanan</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container hero-content">
+        <h1>Gaya Maskulin <br> <span>Raut Kepercayaan Diri</span></h1>
+        <p>Potongan klasik hingga modern, cukur presisi, dan pengalaman barbershop premium. Biarkan para master barber kami merubah penampilanmu.</p>
+        <div class="hero-buttons">
+            <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20booking%20potong%20rambut%20di%20RazorMen" target="_blank" class="btn-wa">
+                <i class="fab fa-whatsapp"></i> Booking via WA
+            </a>
+            <a href="#services" class="btn-outline">Lihat Layanan</a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services">
+    <div class="container">
+        <div class="section-title"><span>⚡ Layanan Premium</span></div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-cut"></i></div>
+                <h3>Haircut Signature</h3>
+                <div class="service-price">Rp 65K</div>
+                <p class="service-desc">Potongan rambut sesuai gaya favorit, dikerjakan oleh senior barber dengan teknik modern.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-beard"></i></div>
+                <h3>Shave & Beard Grooming</h3>
+                <div class="service-price">Rp 45K</div>
+                <p class="service-desc">Rapikan jenggot + hot towel shave, wangi dan presisi untuk tampilan rapi.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-spa"></i></div>
+                <h3>Royal Hair + Hair Spa</h3>
+                <div class="service-price">Rp 120K</div>
+                <p class="service-desc">Potong rambut + creambath + pijat kepala relaksasi, fresh maksimal.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-child"></i></div>
+                <h3>Kids Grooming</h3>
+                <div class="service-price">Rp 45K</div>
+                <p class="service-desc">Potongan rambut khusus anak dengan suasana ramah dan sabar.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-tint"></i></div>
+                <h3>Hair Color / Toning</h3>
+                <div class="service-price">Rp 180K+</div>
+                <p class="service-desc">Warna rambut natural hingga bold, produk berkualitas ramah kulit.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
+                <h3>Facial & Waxing</h3>
+                <div class="service-price">Rp 70K</div>
+                <p class="service-desc">Perawatan wajah pria & waxing alis/hidung untuk penampilan bersih.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+    <div class="container">
+        <div class="section-title"><span>✂️ Cerita Kami</span></div>
+        <div class="about-wrapper">
+            <div class="about-text">
+                <h3>Lebih dari Sekadar Potong Rambut</h3>
+                <p>RazorMen Barbershop hadir sejak 2020 dengan visi menjadi tempat para pria menemukan gaya terbaik mereka. Setiap barber kami telah melalui pelatihan intensif dan selalu mengikuti tren internasional.</p>
+                <p>Kami menggunakan produk premium, kursi ergonomis, serta suasana klasik modern yang nyaman. Setiap kunjungan adalah pengalaman eksklusif untuk memperkuat kepercayaan diri Anda.</p>
+                <p><i class="fas fa-check-circle" style="color:#d4af37;"></i> 100% Higienis & Alat Steril <br>
+                <i class="fas fa-check-circle" style="color:#d4af37;"></i> Free konsultasi gaya rambut <br>
+                <i class="fas fa-check-circle" style="color:#d4af37;"></i> Minuman welcome & Wi-Fi</p>
+                <a href="https://wa.me/6281234567890?text=Halo%20saya%20tertarik%20datang%20ke%20RazorMen" target="_blank" class="btn-wa" style="margin-top: 20px; display: inline-flex;">
+                    <i class="fab fa-whatsapp"></i> Chat Reservasi
+                </a>
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Barbershop interior">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact / Footer -->
+<footer id="contact">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4><i class="fas fa-store"></i> BerylLiebert Barbershop</h4>
+                <p>Perumahan Tosari Indah Persada Blok G27, Kota Kediri Jawa Timur<br>Buka: Senin - Minggu | 10.00 - 21.00</p>
+                <p><i class="fas fa-phone-alt"></i> +62 878-9485-6972<br>
+                <i class="fab fa-whatsapp"></i> +62 878-9485-6972</p>
+            </div>
+            <div class="footer-col">
+                <h4>Jam Operasional</h4>
+                <ul>
+                    <li>Senin - Jumat : 10:00 - 21:00</li>
+                    <li>Sabtu : 09:00 - 22:00</li>
+                    <li>Minggu : 09:00 - 20:00</li>
+                    <li>Hari Libur : Tetap Buka</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/beryl_nakama?igsh=cXFhcTR5eWtodnc4"><i class="fab fa-instagram"></i></a>
+                    <a href="tiktok.com/@jonggun112"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/share/18Au2bT9Cs/"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://youtube.com/@exesasukewi?si=qhDIHaQgLDg9s4ws"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p style="margin-top: 20px;">Dapatkan promo menarik setiap bulannya! Follow social media kami.</p>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 BerylLiebert Barbershop | Modern Grooming for Modern Men
+        </div>
+    </div>
+</footer>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/6287894856972?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20barbershop.%20Bisa%20tanya-tanya%20dulu%3F" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    mobileBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        // change icon between bars and times
+        const icon = mobileBtn.querySelector('i');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Close mobile menu when clicking on a link
+    const links = document.querySelectorAll('.nav-links a');
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = mobileBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    });
+
+    // Navbar background change on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Smooth scroll for anchor links (additional to CSS scroll-behavior)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === "#" || targetId === "") return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // update url without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+
+    // small interactive effect: show popup console friendly (just to show JS active)
+    console.log("RazorMen Barber — siap melayani! ✨");
+    
+    // optional: hover animation data (just for fun) - card hover already in CSS
+    // Add class to service card for extra effect (no extra needed)
+    
+    // Untuk interaksi tombol WA tambahan tracking jika diperlukan
+    const allWaButtons = document.querySelectorAll('.btn-wa, .wa-float');
+    allWaButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // kecilkan animasi, bisa juga kita track event disini
+            // hanya untuk memberikan sentuhan javascript
+            console.log("Tombol WhatsApp diklik — mengarah ke customer service");
+        });
+    });
+    
+    // detect if device is mobile untuk menyesuaikan floating button?
+    // tidak perlu, sudah responsif
+</script>
+</body>
+</html>
